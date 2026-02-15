@@ -1,4 +1,7 @@
 from fpdf import FPDF
+import webbrowser
+import os
+
 
 class Rechnung():
     """
@@ -31,30 +34,42 @@ class PDF_File():
         pdf = FPDF(orientation='P', unit='pt', format='A4')
         pdf.add_page()  # Fügt eine Seite hinzu bzw. erstellt di erste Seite
 
+        # Add Image
+        pdf.image(name='files/house.png', w=30,h=30)
+
+        anteil_MA_1= str(round(mitbewohner1.zahlt(Rechnung=rechnung, mitbewohner2=mitbewohner2),2))
+        anteil_MA_2= str(round(mitbewohner2.zahlt(Rechnung=rechnung, mitbewohner2=mitbewohner1),2))
+
         # Add Text
         pdf.set_font(family='Arial', size=22, style='B')
         ## add a cell --> a cell is like a rectangel
-        pdf.cell(w=0, h=80, txt='Flatmate Bill', border=1, align='C',ln=1)  # Bekommt die größe der Zelle: w und h sind entsprechen der unit die wir in der Klasse definiert haben siehe oben unit='pt'
-        pdf.cell(w=200, h=30, txt='Rechnung', border=1)
-        pdf.set_font(family='Arial', size=18, style='I')
-        pdf.cell(w=120, h=30, txt=rechnung.zeitraum, border=1, ln=1)
+        pdf.cell(w=0, h=80, txt='Flatmate Bill', border=0, align='C',ln=1)  # Bekommt die größe der Zelle: w und h sind entsprechen der unit die wir in der Klasse definiert haben siehe oben unit='pt'
+
+        # H2 Rechnung
+        pdf.set_font(family='Arial', size=18, style='B')
+        pdf.cell(w=200, h=100, txt='Rechnung', border=0)
+        # H2 Period
+        pdf.set_font(family='Arial', size=18, style='B')
+        pdf.cell(w=120, h=100, txt=rechnung.zeitraum, border=0, ln=1)
         pdf.cell(w=0, h=50, ln=1)
 
         # Namen der MA
         pdf.set_font(family='Arial', size=22, style='B')
-        pdf.cell(w=300, h=30, txt='Anwesende Mitbewohner', border=1, ln=1)
-        pdf.set_font(family='Arial', size=18, style='I')
+        pdf.cell(w=300, h=50, txt='Anwesende Mitbewohner', border=0, ln=1)
         ## MA1
-        pdf.cell(w=150, h=30, txt=mitbewohner1.name, border=1)
-        pdf.cell(w=190, h=30, txt=f'{mitbewohner1.zahlt(Rechnung=rechnung, mitbewohner2=mitbewohner2):.2f} EUR', border=1, ln=1)
+        pdf.set_font(family='Arial', size=16)
+        pdf.cell(w=150, h=30, txt=mitbewohner1.name, border=0)
+        pdf.cell(w=190, h=30, txt=f'{anteil_MA_1} EUR', border=0, ln=1)
         ## MA2
-        pdf.cell(w=150, h=30, txt=mitbewohner2.name, border=1)
-        pdf.cell(w=190, h=30, txt=f'{mitbewohner2.zahlt(Rechnung=rechnung, mitbewohner2=mitbewohner1):.2f} EUR', border=1, ln=1)
+        pdf.cell(w=150, h=30, txt=mitbewohner2.name, border=0)
+        pdf.cell(w=190, h=30, txt=f'{anteil_MA_2} EUR', border=0, ln=1)
 
-        # Ausgabe der PDF
-        ## Wie benennnen und wie directory auswählen?
+        # Ausgabe der PDF in ein Direc
         pdf.output(name=f'files/{self.filename}.pdf')
-
+        # Automatisches öffnen des File im Browser (URI Schema wird erstellt)
+        # For a URI you need the absolute apth
+        absolute_path=os.path.abspath(f'files/{self.filename}.pdf')
+        webbrowser.open(absolute_path)
 
 
 
