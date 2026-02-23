@@ -1,0 +1,12 @@
+# CLI Interface
+Interface soll die Parameter der Klassen abfragen und dann die PDF erstellen.
+Dazu benötigen wird die input(). Aus dem Input wird dann eine Instanz Rechnung erstellt
+und zwei Instanzen MA.
+Der User muss auf die Zahlt funktion zugreifen können.
+Einfach durch y/n die Funktion ausführen lassen.
+Dann Nachfrage ob PDF erstellt werden soll.
+
+
+# Änderungen
+# prüfen das Input korrektes Format für Erstellung der Klasse hat
+# prüfe das Anzahlder Tage nicht größer 31 ist
