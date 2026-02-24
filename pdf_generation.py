@@ -1,4 +1,5 @@
 import os
+import subprocess
 from fpdf import FPDF
 from datetime import datetime
 
@@ -46,6 +47,9 @@ class PDF_File():
         pdf.cell(w=190, h=30, txt=f'{anteil_MA_2} EUR', border=0, ln=1)
 
         # Ausgabe der PDF in ein Direc
-        now = datetime.now().strftime("%Y-%m-%d_%H-%M-%S")
+        now = datetime.now().strftime("%Y-%m-%d")
         pdf.output(name=f'files/{self.filename}_{now}.pdf')
+
+
+
 
